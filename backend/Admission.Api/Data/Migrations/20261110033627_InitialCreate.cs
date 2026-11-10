@@ -24,7 +24,7 @@ namespace Admission.Api.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_classes", x => x.id);
-                    table.CheckConstraint("ck_classes_total_seats_positive", "total_seats > 0");
+                    table.CheckConstraint("ck_classes_total_seats", "total_seats > 0");
                 });
 
             migrationBuilder.CreateTable(
@@ -63,17 +63,12 @@ namespace Admission.Api.Data.Migrations
                 columns: new[] { "class_id", "status" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_holds_status_expires_at",
-                table: "holds",
-                columns: new[] { "status", "expires_at" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_holds_student_id",
                 table: "holds",
                 column: "student_id");
 
             migrationBuilder.CreateIndex(
-                name: "ux_holds_active_student_per_class",
+                name: "ux_holds_one_active_per_student",
                 table: "holds",
                 columns: new[] { "class_id", "student_id" },
                 unique: true,

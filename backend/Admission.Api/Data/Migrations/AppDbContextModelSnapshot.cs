@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Admission.Api.Data.Migrations
 {
-    [DbContext(typeof(AdmissionDbContext))]
-    partial class AdmissionDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(AppDbContext))]
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace Admission.Api.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Admission.Api.Domain.Hold", b =>
+            modelBuilder.Entity("Admission.Api.Models.Hold", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(32)
@@ -71,15 +71,13 @@ namespace Admission.Api.Data.Migrations
 
                     b.HasIndex("ClassId", "StudentId")
                         .IsUnique()
-                        .HasDatabaseName("ux_holds_active_student_per_class")
+                        .HasDatabaseName("ux_holds_one_active_per_student")
                         .HasFilter("status IN ('HELD', 'CONFIRMED')");
-
-                    b.HasIndex("Status", "ExpiresAt");
 
                     b.ToTable("holds", (string)null);
                 });
 
-            modelBuilder.Entity("Admission.Api.Domain.SchoolClass", b =>
+            modelBuilder.Entity("Admission.Api.Models.SchoolClass", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(32)
@@ -113,13 +111,13 @@ namespace Admission.Api.Data.Migrations
 
                     b.ToTable("classes", null, t =>
                         {
-                            t.HasCheckConstraint("ck_classes_total_seats_positive", "total_seats > 0");
+                            t.HasCheckConstraint("ck_classes_total_seats", "total_seats > 0");
                         });
                 });
 
-            modelBuilder.Entity("Admission.Api.Domain.Hold", b =>
+            modelBuilder.Entity("Admission.Api.Models.Hold", b =>
                 {
-                    b.HasOne("Admission.Api.Domain.SchoolClass", "Class")
+                    b.HasOne("Admission.Api.Models.SchoolClass", "Class")
                         .WithMany("Holds")
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -128,7 +126,7 @@ namespace Admission.Api.Data.Migrations
                     b.Navigation("Class");
                 });
 
-            modelBuilder.Entity("Admission.Api.Domain.SchoolClass", b =>
+            modelBuilder.Entity("Admission.Api.Models.SchoolClass", b =>
                 {
                     b.Navigation("Holds");
                 });

@@ -1,8 +1,4 @@
 <Solution>
-  <Folder Name="/src/">
-    <Project Path="src/Admission.Api/Admission.Api.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/Admission.Tests/Admission.Tests.csproj" />
-  </Folder>
+  <Project Path="Admission.Api/Admission.Api.csproj" />
+  <Project Path="Admission.Tests/Admission.Tests.csproj" />
 </Solution>
